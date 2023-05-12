@@ -1,0 +1,90 @@
+{
+  "project_info": {
+    "project_number": "972910120426",
+    "project_id": "nutrinow-58c0c",
+    "storage_bucket": "nutrinow-58c0c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:972910120426:android:3056adb2238efb5b093693",
+        "android_client_info": {
+          "package_name": "com.example.nutrinow"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "972910120426-4f9rdhbn6jp3uig45gvovrltobbl4jub.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDlk4QcYi7RSbX07r7gQxo_ZBzWA5G3K0w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "972910120426-4f9rdhbn6jp3uig45gvovrltobbl4jub.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "972910120426-tlshibtcvndpapdshdrcm2rlt7f76qeh.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.mycompany.nutrinow"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:972910120426:android:823fef55aa6a6e8d093693",
+        "android_client_info": {
+          "package_name": "com.mycompany.nutrinow"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "972910120426-oqub48jullnf2o6221p0ffcjhjufsu89.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mycompany.nutrinow",
+            "certificate_hash": "9bbb3186b2189ef16d8f272bdab59362c395cbb4"
+          }
+        },
+        {
+          "client_id": "972910120426-4f9rdhbn6jp3uig45gvovrltobbl4jub.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDlk4QcYi7RSbX07r7gQxo_ZBzWA5G3K0w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "972910120426-4f9rdhbn6jp3uig45gvovrltobbl4jub.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "972910120426-tlshibtcvndpapdshdrcm2rlt7f76qeh.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.mycompany.nutrinow"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
