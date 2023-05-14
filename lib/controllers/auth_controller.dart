@@ -31,7 +31,7 @@ class AuthenticationController extends GetxController {
   Future<void> signup(email, password, display) async {
     try {
       // primero creamos el usuario en el sistema de autenticación de firebase
-      UserCredential userCredential = await FirebaseAuth.instance
+      await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password);
       user = FirebaseAuth.instance.currentUser!;
       user?.updateDisplayName(display);
