@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 class AuthenticationController extends GetxController {
   final databaseReference = FirebaseDatabase.instance.ref();
 
-  User? user;
+  User? user = FirebaseAuth.instance.currentUser;
 
   // método usado para logearse en la aplicación
   Future<User?> login(email, password) async {

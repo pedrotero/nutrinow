@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:nutrinow/controllers/auth_controller.dart';
-import 'package:nutrinow/controllers/form_controller.dart';
-import 'package:provider/provider.dart';
 
 class HomeWidget extends StatefulWidget {
   const HomeWidget({Key? key}) : super(key: key);
@@ -16,16 +13,14 @@ class _HomeWidgetState extends State<HomeWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final _unfocusNode = FocusNode();
   final AuthenticationController authenticationController = Get.find();
-  final FormController formController = Get.find();
   String? userDisp;
 
   @override
   void initState() {
-    super.initState();
     setState(() {
       userDisp = authenticationController.user?.displayName;
-      formController.get();
     });
+    super.initState();
   }
 
   @override

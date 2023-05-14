@@ -6,19 +6,23 @@ import 'start.dart';
 
 class FirebaseCentral extends StatelessWidget {
   const FirebaseCentral({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     // aquí dependiendo del estado de autenticación, el cual
     // obtenemos en el stream, vamos a cargar la interfaz de autenticación
     // o el UserListPage
     return StreamBuilder(
-        stream: FirebaseAuth.instance.authStateChanges(),
+        stream: FirebaseAuth.instance.userChanges(),
         builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            return const HomeWidget();
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            // Show a loading indicator or splash screen
+            return CircularProgressIndicator();
           } else {
-            return const StartWidget();
+            if (snapshot.hasData) {
+              return const HomeWidget();
+            } else {
+              return const StartWidget();
+            }
           }
         });
   }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:nutrinow/controllers/auth_controller.dart';
 import 'package:nutrinow/controllers/form_controller.dart';
 import 'package:provider/provider.dart';
 
@@ -16,6 +17,7 @@ class _FormularioWidgetState extends State<FormularioWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final _unfocusNode = FocusNode();
   FormController formController = Get.find();
+  AuthenticationController authController = Get.find();
   List<Map<String, dynamic>>? meals;
   double animo = 3;
   double estres = 0;
@@ -233,6 +235,13 @@ class _FormularioWidgetState extends State<FormularioWidget> {
                       backgroundColor: MaterialStatePropertyAll(
                           Theme.of(context).colorScheme.secondary)),
                   onPressed: () {
+                    formController.create(
+                        animo,
+                        comentarios.text,
+                        formController.currentMeals,
+                        estres,
+                        DateTime.now(),
+                        authController.getUid());
                     Navigator.pop(context);
                   },
                   child: Text("Enviar formulario",

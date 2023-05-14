@@ -3,19 +3,44 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'auth_controller.dart';
 
 class FormController extends GetxController {
-  final CollectionReference forms =
-      FirebaseFirestore.instance.collection('products');
-
+  final CollectionReference formsref =
+      FirebaseFirestore.instance.collection('forms');
+  final AuthenticationController authenticationController = Get.find();
   List<Map<String, dynamic>> currentMeals = [];
+  List formscoll = [];
   Future<void> create(
       animo, comentarios, comidas, estres, fecha, idUser) async {
-    await forms.add({animo, comentarios, comidas, estres, fecha, idUser});
+    await formsref.add({
+      "animo": animo,
+      "comentarios": comentarios,
+      "comidas": comidas,
+      "estres": estres,
+      "fecha": fecha,
+      "idUser": idUser
+    });
+    print("form added");
+  }
+
+  Future<void> get() async {
+    await formsref
+        .where("idUser", isEqualTo: authenticationController.getUid())
+        .get()
+        .then((querySnapshot) {
+      print("Successfully completed");
+      formscoll.clear();
+
+      for (var docSnapshot in querySnapshot.docs) {
+        formscoll.add(docSnapshot.data());
+        print('${docSnapshot.id} => ${docSnapshot.data()}');
+      }
+    });
   }
 
   Future<void> delete(String productId) async {
-    await forms.doc(productId).delete();
+    await formsref.doc(productId).delete();
 
     // Show a snackbar
   }
