@@ -59,6 +59,7 @@ class _StartWidgetState extends State<StartWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       key: scaffoldKey,
       backgroundColor: Theme.of(context).colorScheme.background,
       body: SafeArea(
@@ -70,10 +71,10 @@ class _StartWidgetState extends State<StartWidget> {
               child: Container(
                 width: 100,
                 height: 100,
-                decoration: BoxDecoration(),
+                decoration: const BoxDecoration(),
               ),
             ),
-            Align(
+            const Align(
               alignment: AlignmentDirectional(0, 0),
               child: Text(
                 'NutriNow',
@@ -90,7 +91,7 @@ class _StartWidgetState extends State<StartWidget> {
               color: Theme.of(context).colorScheme.primary,
             ),
             Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(30, 15, 30, 7),
+              padding: const EdgeInsetsDirectional.fromSTEB(30, 15, 30, 7),
               child: TextFormField(
                 controller: email,
                 autofocus: true,
@@ -139,7 +140,7 @@ class _StartWidgetState extends State<StartWidget> {
               ),
             ),
             Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(30, 0, 30, 0),
+              padding: const EdgeInsetsDirectional.fromSTEB(30, 0, 30, 0),
               child: TextFormField(
                 controller: password,
                 autofocus: true,
@@ -188,7 +189,7 @@ class _StartWidgetState extends State<StartWidget> {
               ),
             ),
             Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(0, 30, 0, 0),
+              padding: const EdgeInsetsDirectional.fromSTEB(0, 30, 0, 0),
               child: TextButton(
                   style: ButtonStyle(
                       backgroundColor: MaterialStatePropertyAll(
@@ -203,7 +204,7 @@ class _StartWidgetState extends State<StartWidget> {
                           color: Theme.of(context).colorScheme.onPrimary))),
             ),
             Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
+              padding: const EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
               child: TextButton(
                   style: ButtonStyle(
                       backgroundColor: MaterialStatePropertyAll(
@@ -222,7 +223,7 @@ class _StartWidgetState extends State<StartWidget> {
               child: Container(
                 width: 100,
                 height: 100,
-                decoration: BoxDecoration(),
+                decoration: const BoxDecoration(),
               ),
             ),
           ],

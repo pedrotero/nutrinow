@@ -5,30 +5,22 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:nutrinow/controllers/form_controller.dart';
 import 'package:provider/provider.dart';
 
-class EditComidaWidget extends StatefulWidget {
-  const EditComidaWidget({Key? key}) : super(key: key);
+class VerComidaWidget extends StatefulWidget {
+  const VerComidaWidget({Key? key}) : super(key: key);
 
   @override
-  _EditComidaWidgetState createState() => _EditComidaWidgetState();
+  _VerComidaWidgetState createState() => _VerComidaWidgetState();
 }
 
-class _EditComidaWidgetState extends State<EditComidaWidget> {
+class _VerComidaWidgetState extends State<VerComidaWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final _unfocusNode = FocusNode();
   FormController formcon = Get.find();
   TextEditingController nombre = TextEditingController();
   TextEditingController fecha = TextEditingController();
-  TextEditingController comentarios = TextEditingController();
-  double calif = 3;
   @override
   void initState() {
     super.initState();
-    if (formcon.editando) {
-      nombre.text = formcon.meal["nombre"];
-      fecha.text = formcon.meal["fecha"];
-      comentarios.text = formcon.meal["comentarios"];
-      calif = formcon.meal["calif"];
-    }
   }
 
   @override
@@ -40,7 +32,6 @@ class _EditComidaWidgetState extends State<EditComidaWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
       key: scaffoldKey,
       backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
@@ -52,6 +43,7 @@ class _EditComidaWidgetState extends State<EditComidaWidget> {
             'Comida',
           ),
         ),
+        actions: [],
         centerTitle: false,
         elevation: 2,
       ),
@@ -66,14 +58,9 @@ class _EditComidaWidgetState extends State<EditComidaWidget> {
                 child: Column(
                   mainAxisSize: MainAxisSize.max,
                   children: [
-                    Text(
-                      'Nombre:',
-                      style: TextStyle(
-                          color: Theme.of(context).colorScheme.surface),
-                    ),
                     TextFormField(
-                      style: TextStyle(fontWeight: FontWeight.w500),
                       controller: nombre,
+                      autofocus: true,
                       obscureText: false,
                       decoration: const InputDecoration(
                         hintText: 'Nombre de la comida',
@@ -119,11 +106,10 @@ class _EditComidaWidgetState extends State<EditComidaWidget> {
                         ),
                       ),
                     ),
-                    Divider(
-                        color: Theme.of(context).colorScheme.primary,
-                        height: 4),
+                    const Text(
+                      'Hora del día de la comida: ',
+                    ),
                     TextFormField(
-                      style: TextStyle(fontWeight: FontWeight.w500),
                       controller: fecha,
                       obscureText: false,
                       decoration: const InputDecoration(
@@ -170,18 +156,6 @@ class _EditComidaWidgetState extends State<EditComidaWidget> {
                         ),
                       ),
                       keyboardType: TextInputType.datetime,
-                      onTap: () async {
-                        await showTimePicker(
-                          context: context,
-                          initialTime: TimeOfDay.now(),
-                        ).then((value) {
-                          if (value != null) {
-                            fecha.text = value.format(context);
-                          } else {
-                            fecha.text = TimeOfDay.now().format(context);
-                          }
-                        });
-                      },
                     ),
                     const Padding(
                       padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
@@ -193,15 +167,15 @@ class _EditComidaWidgetState extends State<EditComidaWidget> {
                       alignment: const AlignmentDirectional(0, 0),
                       child: RatingBar.builder(
                         onRatingUpdate: (newValue) =>
-                            setState(() => calif = newValue),
+                            setState(() => newValue = newValue),
                         itemBuilder: (context, index) => Icon(
                           Icons.star_rounded,
                           color: Theme.of(context).colorScheme.secondary,
                         ),
                         direction: Axis.horizontal,
-                        initialRating: calif,
+                        initialRating: 5,
                         unratedColor: const Color(0xFF9E9E9E),
-                        itemCount: 5,
+                        itemCount: 6,
                         itemSize: 40,
                         glowColor: Theme.of(context).colorScheme.secondary,
                       ),
@@ -220,12 +194,11 @@ class _EditComidaWidgetState extends State<EditComidaWidget> {
                       padding:
                           const EdgeInsetsDirectional.fromSTEB(20, 10, 20, 0),
                       child: TextFormField(
-                        controller: comentarios,
+                        //controller: _model.textController2,
                         autofocus: true,
                         obscureText: false,
                         decoration: const InputDecoration(
-                          hintText:
-                              'Deja tus comentarios sobre esta comida aquí',
+                          hintText: '[Comentarios]',
                           enabledBorder: OutlineInputBorder(
                             borderSide: BorderSide(
                               color: Color(0xFF0A6C19),
@@ -283,31 +256,13 @@ class _EditComidaWidgetState extends State<EditComidaWidget> {
                       backgroundColor: MaterialStatePropertyAll(
                           Theme.of(context).colorScheme.primary)),
                   onPressed: () {
-                    if (formcon.editando) {
-                      formcon.currentMeals[formcon.meal["i"]] = {
-                        "nombre": nombre.text,
-                        "fecha": fecha.text,
-                        "comentarios": comentarios.text,
-                        "calif": calif
-                      };
-                    } else {
-                      formcon.currentMeals.add({
-                        "nombre": nombre.text,
-                        "fecha": fecha.text,
-                        "comentarios": comentarios.text,
-                        "calif": calif
-                      });
-                    }
-                    formcon.editando = false;
-                    formcon.meal = {};
+                    formcon.currentMeals
+                        .add({"nombre": nombre.text, "fecha": fecha.text});
                     print(formcon.currentMeals);
                     setState(() {});
-                    Navigator.pop(context, true);
+                    Navigator.pop(context);
                   },
-                  child: Text(
-                      style: TextStyle(
-                          color: Theme.of(context).colorScheme.onPrimary),
-                      formcon.editando ? "Guardar cambios" : "Guardar comida")),
+                  child: const Text("Agregar Comida")),
             ),
           ],
         ),

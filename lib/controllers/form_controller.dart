@@ -10,7 +10,9 @@ class FormController extends GetxController {
       FirebaseFirestore.instance.collection('forms');
   final AuthenticationController authenticationController = Get.find();
   List<Map<String, dynamic>> currentMeals = [];
+  Map<String, dynamic> meal = {};
   List formscoll = [];
+  bool editando = false;
   Future<void> create(
       animo, comentarios, comidas, estres, fecha, idUser) async {
     await formsref.add({

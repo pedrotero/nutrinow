@@ -1,26 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:nutrinow/controllers/auth_controller.dart';
+import 'package:nutrinow/controllers/form_controller.dart';
 
-class HomeWidget extends StatefulWidget {
-  const HomeWidget({Key? key}) : super(key: key);
+class FormListWidget extends StatefulWidget {
+  const FormListWidget({Key? key}) : super(key: key);
 
   @override
-  _HomeWidgetState createState() => _HomeWidgetState();
+  _FormListState createState() => _FormListState();
 }
 
-class _HomeWidgetState extends State<HomeWidget> {
+class _FormListState extends State<FormListWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final _unfocusNode = FocusNode();
   final AuthenticationController authenticationController = Get.find();
-  String? userDisp;
+  final FormController formController = Get.find();
 
   @override
   void initState() {
-    setState(() {
-      userDisp = authenticationController.user?.displayName;
-    });
     super.initState();
+    setState(() {});
   }
 
   @override
@@ -33,54 +32,76 @@ class _HomeWidgetState extends State<HomeWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        title: const Align(
+          alignment: AlignmentDirectional(0, 0),
+          child: Text(
+            'Tus formularios',
+          ),
+        ),
+        centerTitle: false,
+        elevation: 2,
+      ),
       backgroundColor: Theme.of(context).colorScheme.background,
-      body: SafeArea(
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 40),
-              child: Text('Hola, $userDisp',
-                  style: TextStyle(
-                    fontSize: 30,
-                    fontWeight: FontWeight.w500,
-                  )),
-            ),
-            Align(
-              alignment: AlignmentDirectional(0, 0),
-              child: TextButton(
-                  style: ButtonStyle(
-                      backgroundColor: MaterialStatePropertyAll(
-                          Theme.of(context).colorScheme.primary)),
-                  onPressed: () {
-                    Navigator.pushNamed(context, "/formulario");
-                  },
-                  child: Text("Crear formulario",
-                      style: TextStyle(
-                          fontWeight: FontWeight.w400,
-                          fontSize: 20,
-                          color: Theme.of(context).colorScheme.onPrimary))),
-            ),
-            Align(
-              alignment: AlignmentDirectional(0, 0),
-              child: Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(0, 30, 0, 0),
-                child: TextButton(
-                    onPressed: () {
-                      authenticationController.logout();
-                    },
-                    style: ButtonStyle(
-                        backgroundColor: MaterialStatePropertyAll(
-                            Theme.of(context).colorScheme.secondary)),
-                    child: Text("Ver formularios",
-                        style: TextStyle(
-                            fontWeight: FontWeight.w400,
-                            fontSize: 20,
-                            color: Theme.of(context).colorScheme.onPrimary))),
-              ),
-            ),
-          ],
+      body: SingleChildScrollView(
+        child: SafeArea(
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              ListView(
+                shrinkWrap: true,
+                scrollDirection: Axis.vertical,
+                children: formController.formscoll.map((e) {
+                  return Material(
+                    color: Theme.of(context).colorScheme.background,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).colorScheme.background,
+                        borderRadius: BorderRadius.circular(10),
+                        shape: BoxShape.rectangle,
+                        border: Border.all(
+                          color: Color(0xFF8FBC94),
+                          width: 3,
+                        ),
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "- ${e["comentarios"]}",
+                                style: const TextStyle(
+                                    fontSize: 16, fontWeight: FontWeight.bold),
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              Text(
+                                  "Fecha: ${e["fecha"].toDate().toString().substring(0, 19)}"),
+                            ],
+                          ),
+                          IconButton(
+                              onPressed: () {
+                                Navigator.pushNamed(context, "/verform");
+                              },
+                              icon: Icon(
+                                Icons.chevron_right,
+                                color: Theme.of(context).colorScheme.primary,
+                              ))
+                        ],
+                      ),
+                    ),
+                  );
+                }).toList(),
+              )
+            ],
+          ),
         ),
       ),
     );

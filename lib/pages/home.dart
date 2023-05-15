@@ -73,7 +73,11 @@ class _HomeWidgetState extends State<HomeWidget> {
                 padding: EdgeInsetsDirectional.fromSTEB(0, 30, 0, 0),
                 child: TextButton(
                     onPressed: () {
-                      authenticationController.logout();
+                      setState(() {
+                        formController.get();
+                      });
+
+                      Navigator.pushNamed(context, "/formlist");
                     },
                     style: ButtonStyle(
                         backgroundColor: MaterialStatePropertyAll(

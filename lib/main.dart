@@ -10,6 +10,9 @@ import 'controllers/auth_controller.dart';
 import 'pages/editcomida.dart';
 import 'pages/home.dart';
 import 'pages/start.dart';
+import 'pages/formlist.dart';
+import 'pages/vercomida.dart';
+import 'pages/verformulario.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -59,7 +62,10 @@ class MyApp extends StatelessWidget {
         "/home": (context) => const HomeWidget(),
         "/editcomida": (context) => const EditComidaWidget(),
         "/start": (context) => const StartWidget(),
-        "/register": (context) => const RegisterWidget()
+        "/register": (context) => const RegisterWidget(),
+        "/formlist": (context) => const FormListWidget(),
+        "/verform": (context) => const VerFormWidget(),
+        "/vercomida": (context) => const VerComidaWidget()
       },
     );
   }
