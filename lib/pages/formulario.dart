@@ -26,8 +26,10 @@ class _FormularioWidgetState extends State<FormularioWidget> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
-    meals = formController.currentMeals;
-    setState(() {});
+
+    setState(() {
+      meals = formController.currentMeals;
+    });
   }
 
   @override
@@ -72,18 +74,19 @@ class _FormularioWidgetState extends State<FormularioWidget> {
                       Align(
                         alignment: const AlignmentDirectional(0, 0),
                         child: RatingBar.builder(
+                          allowHalfRating: true,
                           onRatingUpdate: (newValue) =>
                               {setState(() => animo = newValue)},
                           itemBuilder: (context, index) => Icon(
                             Icons.star_rounded,
-                            color: Theme.of(context).colorScheme.secondary,
+                            color: Theme.of(context).colorScheme.primary,
                           ),
                           direction: Axis.horizontal,
                           initialRating: 3,
                           unratedColor: const Color(0xFF9E9E9E),
                           itemCount: 6,
                           itemSize: 40,
-                          glowColor: Theme.of(context).colorScheme.secondary,
+                          glowColor: Theme.of(context).colorScheme.primary,
                         ),
                       ),
                       const Padding(
@@ -140,7 +143,7 @@ class _FormularioWidgetState extends State<FormularioWidget> {
                       ),
                       Padding(
                         padding:
-                            const EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
+                            const EdgeInsetsDirectional.fromSTEB(40, 20, 0, 0),
                         child: SingleChildScrollView(
                           child: Column(
                               mainAxisSize: MainAxisSize.max,
@@ -255,7 +258,9 @@ class _FormularioWidgetState extends State<FormularioWidget> {
                   child: TextButton(
                       style: ButtonStyle(
                           backgroundColor: MaterialStatePropertyAll(
-                              Theme.of(context).colorScheme.secondary)),
+                              Theme.of(context)
+                                  .colorScheme
+                                  .onPrimaryContainer)),
                       onPressed: () {
                         formController.create(
                             animo,

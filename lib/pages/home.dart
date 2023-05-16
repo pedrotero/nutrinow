@@ -81,7 +81,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                     },
                     style: ButtonStyle(
                         backgroundColor: MaterialStatePropertyAll(
-                            Theme.of(context).colorScheme.secondary)),
+                            Theme.of(context).colorScheme.onPrimaryContainer)),
                     child: Text("Ver formularios",
                         style: TextStyle(
                             fontWeight: FontWeight.w400,

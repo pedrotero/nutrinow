@@ -196,14 +196,14 @@ class _EditComidaWidgetState extends State<EditComidaWidget> {
                             setState(() => calif = newValue),
                         itemBuilder: (context, index) => Icon(
                           Icons.star_rounded,
-                          color: Theme.of(context).colorScheme.secondary,
+                          color: Theme.of(context).colorScheme.primary,
                         ),
                         direction: Axis.horizontal,
                         initialRating: calif,
                         unratedColor: const Color(0xFF9E9E9E),
                         itemCount: 5,
                         itemSize: 40,
-                        glowColor: Theme.of(context).colorScheme.secondary,
+                        glowColor: Theme.of(context).colorScheme.primary,
                       ),
                     ),
                     const Align(

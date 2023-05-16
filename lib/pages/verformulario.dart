@@ -17,17 +17,26 @@ class _VerFormWidgetState extends State<VerFormWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final _unfocusNode = FocusNode();
   FormController formController = Get.find();
+  late Map<String, dynamic> form;
   AuthenticationController authController = Get.find();
-  List<Map<String, dynamic>>? meals;
+  List? meals;
   double animo = 3;
   double estres = 0;
   TextEditingController comentarios = TextEditingController();
+  late DateTime fecha;
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
-    meals = formController.currentMeals;
-    setState(() {});
+
+    setState(() {
+      form = formController.formview;
+      meals = form["comidas"];
+      animo = form["animo"];
+      estres = form["estres"];
+      comentarios.text = form["comentarios"];
+      fecha = form["fecha"].toDate();
+    });
   }
 
   @override
@@ -62,6 +71,12 @@ class _VerFormWidgetState extends State<VerFormWidget> {
               child: Column(
                 mainAxisSize: MainAxisSize.max,
                 children: [
+                  Padding(
+                    padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
+                    child: Text(
+                      'Fecha: ${fecha.toString().substring(0, 10)}',
+                    ),
+                  ),
                   const Padding(
                     padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
                     child: Text(
@@ -71,18 +86,20 @@ class _VerFormWidgetState extends State<VerFormWidget> {
                   Align(
                     alignment: const AlignmentDirectional(0, 0),
                     child: RatingBar.builder(
+                      allowHalfRating: true,
+                      ignoreGestures: true,
                       onRatingUpdate: (newValue) =>
-                          {setState(() => animo = newValue)},
+                          {setState(() => animo = animo)},
                       itemBuilder: (context, index) => Icon(
                         Icons.star_rounded,
-                        color: Theme.of(context).colorScheme.secondary,
+                        color: Theme.of(context).colorScheme.primary,
                       ),
                       direction: Axis.horizontal,
                       initialRating: 3,
                       unratedColor: const Color(0xFF9E9E9E),
                       itemCount: 6,
                       itemSize: 40,
-                      glowColor: Theme.of(context).colorScheme.secondary,
+                      glowColor: Theme.of(context).colorScheme.primary,
                     ),
                   ),
                   const Padding(
@@ -102,34 +119,41 @@ class _VerFormWidgetState extends State<VerFormWidget> {
                       value: estres + 0.0,
                       label: "${estres}",
                       onChanged: (newValue) {
-                        setState(() => estres = newValue.roundToDouble());
+                        setState(() => estres = estres);
                       },
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
+                    padding: const EdgeInsets.all(10.0),
+                    child: Text("Tus Comidas"),
+                  ),
+                  Padding(
+                    padding: const EdgeInsetsDirectional.fromSTEB(40, 20, 0, 0),
                     child: SingleChildScrollView(
                       child: Column(
                           mainAxisSize: MainAxisSize.max,
-                          children: formController.currentMeals.map((e) {
-                            return Row(
-                              children: [
-                                Text(
-                                  e["nombre"],
-                                  style: TextStyle(
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .tertiary),
-                                ),
-                                IconButton(
-                                  onPressed: () {},
-                                  icon: Icon(
+                          children: meals!.map((e) {
+                            return InkWell(
+                              onTap: () {
+                                formController.mealview = e;
+                                Navigator.pushNamed(context, "/vercomida");
+                              },
+                              child: Row(
+                                children: [
+                                  Text(
+                                    e["nombre"],
+                                    style: TextStyle(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .primary),
+                                  ),
+                                  Icon(
                                     Icons.remove_red_eye_outlined,
                                     color:
-                                        Theme.of(context).colorScheme.tertiary,
-                                  ),
-                                )
-                              ],
+                                        Theme.of(context).colorScheme.primary,
+                                  )
+                                ],
+                              ),
                             );
                           }).toList()),
                     ),
@@ -148,9 +172,9 @@ class _VerFormWidgetState extends State<VerFormWidget> {
                     padding: const EdgeInsetsDirectional.fromSTEB(20, 0, 20, 0),
                     child: TextFormField(
                       controller: comentarios,
-                      obscureText: false,
+                      obscureText: false, enabled: false,
                       decoration: const InputDecoration(
-                        hintText: 'Deja tus comentarios sobre tu día...',
+                        hintText: '',
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
                             color: Color(0xFF0A6C19),
@@ -202,28 +226,28 @@ class _VerFormWidgetState extends State<VerFormWidget> {
                 ],
               ),
             ),
-            Padding(
-              padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 20),
-              child: TextButton(
-                  style: ButtonStyle(
-                      backgroundColor: MaterialStatePropertyAll(
-                          Theme.of(context).colorScheme.secondary)),
-                  onPressed: () {
-                    formController.create(
-                        animo,
-                        comentarios.text,
-                        formController.currentMeals,
-                        estres,
-                        DateTime.now(),
-                        authController.getUid());
-                    Navigator.pop(context);
-                  },
-                  child: Text("Enviar formulario",
-                      style: TextStyle(
-                          fontWeight: FontWeight.w400,
-                          fontSize: 20,
-                          color: Theme.of(context).colorScheme.onPrimary))),
-            ),
+            // Padding(
+            //   padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 20),
+            //   child: TextButton(
+            //       style: ButtonStyle(
+            //           backgroundColor: MaterialStatePropertyAll(
+            //               Theme.of(context).colorScheme.secondary)),
+            //       onPressed: () {
+            //         formController.create(
+            //             animo,
+            //             comentarios.text,
+            //             formController.currentMeals,
+            //             estres,
+            //             DateTime.now(),
+            //             authController.getUid());
+            //         Navigator.pop(context);
+            //       },
+            //       child: Text("Enviar formulario",
+            //           style: TextStyle(
+            //               fontWeight: FontWeight.w400,
+            //               fontSize: 20,
+            //               color: Theme.of(context).colorScheme.onPrimary))),
+            // ),
           ],
         ),
       ),

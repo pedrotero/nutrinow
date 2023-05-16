@@ -18,9 +18,15 @@ class _VerComidaWidgetState extends State<VerComidaWidget> {
   FormController formcon = Get.find();
   TextEditingController nombre = TextEditingController();
   TextEditingController fecha = TextEditingController();
+  double animo = 0;
+  Map<String, dynamic> meal = {};
   @override
   void initState() {
     super.initState();
+    meal = formcon.mealview;
+    animo = meal["animo"] ?? 2.5;
+    nombre.text = meal["nombre"] ?? "";
+    fecha.text = meal["fecha"] ?? "";
   }
 
   @override
@@ -58,9 +64,16 @@ class _VerComidaWidgetState extends State<VerComidaWidget> {
                 child: Column(
                   mainAxisSize: MainAxisSize.max,
                   children: [
+                    Padding(
+                      padding: EdgeInsetsDirectional.fromSTEB(0, 30, 0, 15),
+                      child: const Text(
+                        'Nombre de la comida: ',
+                      ),
+                    ),
                     TextFormField(
                       controller: nombre,
                       autofocus: true,
+                      enabled: false,
                       obscureText: false,
                       decoration: const InputDecoration(
                         hintText: 'Nombre de la comida',
@@ -106,11 +119,15 @@ class _VerComidaWidgetState extends State<VerComidaWidget> {
                         ),
                       ),
                     ),
-                    const Text(
-                      'Hora del día de la comida: ',
+                    Padding(
+                      padding: EdgeInsetsDirectional.fromSTEB(0, 30, 0, 15),
+                      child: const Text(
+                        'Hora del día de la comida: ',
+                      ),
                     ),
                     TextFormField(
                       controller: fecha,
+                      enabled: false,
                       obscureText: false,
                       decoration: const InputDecoration(
                         hintText: 'Hora del día de la comida: ',
@@ -158,26 +175,28 @@ class _VerComidaWidgetState extends State<VerComidaWidget> {
                       keyboardType: TextInputType.datetime,
                     ),
                     const Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
+                      padding: EdgeInsetsDirectional.fromSTEB(0, 40, 0, 0),
                       child: Text(
-                        'Califica tu estado de ánimo durante la comida:',
+                        'Tu estado de ánimo durante la comida:',
                       ),
                     ),
                     Align(
                       alignment: const AlignmentDirectional(0, 0),
                       child: RatingBar.builder(
+                        allowHalfRating: true,
                         onRatingUpdate: (newValue) =>
-                            setState(() => newValue = newValue),
+                            setState(() => animo = animo),
+                        ignoreGestures: true,
                         itemBuilder: (context, index) => Icon(
                           Icons.star_rounded,
-                          color: Theme.of(context).colorScheme.secondary,
+                          color: Theme.of(context).colorScheme.primary,
                         ),
                         direction: Axis.horizontal,
                         initialRating: 5,
                         unratedColor: const Color(0xFF9E9E9E),
                         itemCount: 6,
                         itemSize: 40,
-                        glowColor: Theme.of(context).colorScheme.secondary,
+                        glowColor: Theme.of(context).colorScheme.primary,
                       ),
                     ),
                     const Align(
@@ -196,9 +215,9 @@ class _VerComidaWidgetState extends State<VerComidaWidget> {
                       child: TextFormField(
                         //controller: _model.textController2,
                         autofocus: true,
-                        obscureText: false,
+                        obscureText: false, enabled: false,
                         decoration: const InputDecoration(
-                          hintText: '[Comentarios]',
+                          hintText: '',
                           enabledBorder: OutlineInputBorder(
                             borderSide: BorderSide(
                               color: Color(0xFF0A6C19),
@@ -249,21 +268,21 @@ class _VerComidaWidgetState extends State<VerComidaWidget> {
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 20),
-              child: TextButton(
-                  style: ButtonStyle(
-                      backgroundColor: MaterialStatePropertyAll(
-                          Theme.of(context).colorScheme.primary)),
-                  onPressed: () {
-                    formcon.currentMeals
-                        .add({"nombre": nombre.text, "fecha": fecha.text});
-                    print(formcon.currentMeals);
-                    setState(() {});
-                    Navigator.pop(context);
-                  },
-                  child: const Text("Agregar Comida")),
-            ),
+            // Padding(
+            //   padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 20),
+            //   child: TextButton(
+            //       style: ButtonStyle(
+            //           backgroundColor: MaterialStatePropertyAll(
+            //               Theme.of(context).colorScheme.primary)),
+            //       onPressed: () {
+            //         formcon.currentMeals
+            //             .add({"nombre": nombre.text, "fecha": fecha.text});
+            //         print(formcon.currentMeals);
+            //         setState(() {});
+            //         Navigator.pop(context);
+            //       },
+            //       child: const Text("Agregar Comida")),
+            // ),
           ],
         ),
       ),

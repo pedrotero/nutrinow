@@ -42,19 +42,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        colorScheme: const ColorScheme(
-            brightness: Brightness.light,
-            primary: Color(0xFF55AF31),
-            onPrimary: Color(0xFFFFFFFF),
-            secondary: Color(0xFF589D40),
-            onSecondary: Color(0xFFFFFFFF),
-            tertiary: Color(0xFF0A6C19),
-            error: Color(0xFF750000),
-            onError: Color(0xFFFFFFFF),
-            background: Color(0xFFFFFFFF),
-            onBackground: Color(0xFF0F0F0F),
-            surface: Color(0xFF9A9A9A),
-            onSurface: Color(0xFFFFFFFF)),
+        colorScheme:
+            ColorScheme.fromSeed(seedColor: Color.fromARGB(255, 51, 124, 29)),
       ),
       home: const FirebaseCentral(),
       routes: {

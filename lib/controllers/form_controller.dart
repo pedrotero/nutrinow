@@ -11,7 +11,9 @@ class FormController extends GetxController {
   final AuthenticationController authenticationController = Get.find();
   List<Map<String, dynamic>> currentMeals = [];
   Map<String, dynamic> meal = {};
-  List formscoll = [];
+  Map<String, dynamic> mealview = {};
+  List<Map<String, dynamic>> formscoll = [];
+  Map<String, dynamic> formview = {};
   bool editando = false;
   Future<void> create(
       animo, comentarios, comidas, estres, fecha, idUser) async {
@@ -35,7 +37,7 @@ class FormController extends GetxController {
       formscoll.clear();
 
       for (var docSnapshot in querySnapshot.docs) {
-        formscoll.add(docSnapshot.data());
+        formscoll.add(docSnapshot.data() as Map<String, dynamic>);
         print('${docSnapshot.id} => ${docSnapshot.data()}');
       }
     });
