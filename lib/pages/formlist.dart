@@ -24,6 +24,7 @@ class _FormListState extends State<FormListWidget> {
       forms.clear();
       formController.get();
       forms = formController.formscoll;
+      forms.sort((a, b) => b["fecha"].compareTo(a["fecha"]));
     });
   }
 

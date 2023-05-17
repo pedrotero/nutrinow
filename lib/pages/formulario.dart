@@ -164,7 +164,6 @@ class _FormularioWidgetState extends State<FormularioWidget> {
                                           "i": formController.currentMeals
                                               .indexOf(e)
                                         };
-                                        print(e);
                                         e.addAll(i);
                                         formController.meal = e;
                                         setState(() {});

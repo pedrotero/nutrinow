@@ -300,7 +300,6 @@ class _EditComidaWidgetState extends State<EditComidaWidget> {
                     }
                     formcon.editando = false;
                     formcon.meal = {};
-                    print(formcon.currentMeals);
                     setState(() {});
                     Navigator.pop(context, true);
                   },

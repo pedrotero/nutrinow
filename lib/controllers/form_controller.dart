@@ -39,14 +39,12 @@ class FormController extends GetxController {
 
       for (var docSnapshot in querySnapshot.docs) {
         formscoll.add(docSnapshot.data() as Map<String, dynamic>);
-        print('${docSnapshot.id} => ${docSnapshot.data()}');
       }
       lastseven.clear();
       lastseven.addAll(formscoll);
       lastseven.sort((a, b) => b["fecha"].compareTo(a["fecha"]));
       int maxLength = lastseven.length < 7 ? lastseven.length : 7;
       lastseven = lastseven.sublist(0, maxLength);
-      print("$lastseven se supone que b,a");
     });
   }
 

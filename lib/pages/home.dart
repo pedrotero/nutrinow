@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_charts/flutter_charts.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:nutrinow/controllers/auth_controller.dart';
 import 'package:nutrinow/controllers/form_controller.dart';
 import 'package:provider/provider.dart';
+import 'package:fl_chart/fl_chart.dart';
 
 class HomeWidget extends StatefulWidget {
   const HomeWidget({Key? key}) : super(key: key);
@@ -19,62 +19,68 @@ class _HomeWidgetState extends State<HomeWidget> {
   final AuthenticationController authenticationController = Get.find();
   final FormController formController = Get.find();
   String? userDisp;
+  List<FlSpot> animoSpots = [];
+  List<FlSpot> comidasSpots = [];
+  SideTitles? bottomTitles;
 
   @override
   void initState() {
     super.initState();
     setState(() {
       userDisp = authenticationController.user?.displayName;
-      formController.get();
+      getForms();
     });
   }
 
-  Future<void> buildChart() async {}
+  Future<void> getForms() async {
+    await formController.get();
+    await getSpots();
+    setState(() {
+      bottomTitles = getBottomTitles();
+    });
+  }
+
+  Future<void> getSpots() async {
+    double i = 0;
+    animoSpots = formController.lastseven.map((e) {
+      return FlSpot(i++, e["animo"]);
+    }).toList();
+    i = 0;
+    comidasSpots = formController.lastseven.map((e) {
+      return FlSpot(i++, e["comidas"].length + 0.0);
+    }).toList();
+  }
+
+  Widget bottomTitleWidgets(double value, TitleMeta meta) {
+    const style = TextStyle(
+      fontWeight: FontWeight.bold,
+      fontSize: 16,
+    );
+    Widget text;
+    print(value);
+    text = Text(
+      "${formController.lastseven[value.toInt()]["fecha"].toDate().toString().substring(0, 10)}\n ${formController.lastseven[value.toInt()]["fecha"].toDate().toString().substring(11, 16)}",
+      style: TextStyle(fontSize: 12),
+    );
+
+    return SideTitleWidget(
+      axisSide: meta.axisSide,
+      space: 7,
+      child: text,
+    );
+  }
+
+  SideTitles getBottomTitles() => SideTitles(
+        showTitles: true,
+        reservedSize: 32,
+        interval: 1,
+        getTitlesWidget: bottomTitleWidgets,
+      );
+
   @override
   void dispose() {
     _unfocusNode.dispose();
     super.dispose();
-  }
-
-  Widget chartToRun() {
-    LabelLayoutStrategy? xContainerLabelLayoutStrategy;
-    ChartData chartData;
-    ChartOptions chartOptions = const ChartOptions();
-    // Example shows an explicit use of the DefaultIterativeLabelLayoutStrategy.
-    // The xContainerLabelLayoutStrategy, if set to null or not set at all,
-    //   defaults to DefaultIterativeLabelLayoutStrategy
-    // Clients can also create their own LayoutStrategy.
-    xContainerLabelLayoutStrategy = DefaultIterativeLabelLayoutStrategy(
-      options: chartOptions,
-    );
-    chartData = ChartData(
-      dataRows: const [
-        [10.0, 20.0, 5.0, 30.0, 5.0, 20.0],
-        [30.0, 60.0, 16.0, 100.0, 12.0, 120.0],
-        [25.0, 40.0, 20.0, 80.0, 12.0, 90.0],
-        [12.0, 30.0, 18.0, 40.0, 10.0, 30.0],
-      ],
-      xUserLabels: const ['Wolf', 'Deer', 'Owl', 'Mouse', 'Hawk', 'Vole'],
-      dataRowsLegends: const [
-        'Spring',
-        'Summer',
-        'Fall',
-        'Winter',
-      ],
-      chartOptions: chartOptions,
-    );
-    // chartData.dataRowsDefaultColors(); // if not set, called in constructor
-    var lineChartContainer = LineChartTopContainer(
-      chartData: chartData,
-      xContainerLabelLayoutStrategy: xContainerLabelLayoutStrategy,
-    );
-
-    var lineChart = LineChart(
-      painter: LineChartPainter(
-        lineChartContainer: lineChartContainer,
-      ),
-    );
-    return lineChart;
   }
 
   @override
@@ -85,7 +91,7 @@ class _HomeWidgetState extends State<HomeWidget> {
             onPressed: () {
               authenticationController.logout();
             },
-            icon: Icon(Icons.exit_to_app))
+            icon: const Icon(Icons.exit_to_app))
       ]),
       key: scaffoldKey,
       backgroundColor: Theme.of(context).colorScheme.background,
@@ -94,17 +100,59 @@ class _HomeWidgetState extends State<HomeWidget> {
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            chartToRun(),
             Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 40),
+              padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 40),
               child: Text('Hola, $userDisp',
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 30,
                     fontWeight: FontWeight.w500,
                   )),
             ),
+            const Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Text(
+                "Tu ánimo y comidas por reporte en tus últimos 7 reportes",
+                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
+                textAlign: TextAlign.center,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                color: Theme.of(context).colorScheme.surface,
+                child: AspectRatio(
+                  aspectRatio: 1.6,
+                  child: LineChart(
+                    LineChartData(
+                      titlesData: FlTitlesData(
+                        bottomTitles: AxisTitles(
+                          sideTitles: bottomTitles,
+                        ),
+                      ),
+                      minY: 0,
+                      maxY: 5,
+                      lineBarsData: [
+                        LineChartBarData(
+                          color: Theme.of(context).colorScheme.primary,
+                          spots: animoSpots,
+                          isCurved: true,
+                          // dotData: FlDotData(
+                          //   show: false,
+                          // ),
+                        ),
+                        LineChartBarData(
+                          color: Theme.of(context).colorScheme.error,
+                          spots: comidasSpots,
+                          isCurved: true,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
             Align(
-              alignment: AlignmentDirectional(0, 0),
+              alignment: const AlignmentDirectional(0, 0),
               child: TextButton(
                   style: ButtonStyle(
                       backgroundColor: MaterialStatePropertyAll(
@@ -119,9 +167,9 @@ class _HomeWidgetState extends State<HomeWidget> {
                           color: Theme.of(context).colorScheme.onPrimary))),
             ),
             Align(
-              alignment: AlignmentDirectional(0, 0),
+              alignment: const AlignmentDirectional(0, 0),
               child: Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(0, 30, 0, 0),
+                padding: const EdgeInsetsDirectional.fromSTEB(0, 30, 0, 0),
                 child: TextButton(
                     onPressed: () {
                       setState(() {
