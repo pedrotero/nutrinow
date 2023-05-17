@@ -84,7 +84,7 @@ class _FormularioWidgetState extends State<FormularioWidget> {
                           direction: Axis.horizontal,
                           initialRating: 3,
                           unratedColor: const Color(0xFF9E9E9E),
-                          itemCount: 6,
+                          itemCount: 5,
                           itemSize: 40,
                           glowColor: Theme.of(context).colorScheme.primary,
                         ),
@@ -155,7 +155,7 @@ class _FormularioWidgetState extends State<FormularioWidget> {
                                       style: TextStyle(
                                           color: Theme.of(context)
                                               .colorScheme
-                                              .tertiary),
+                                              .primary),
                                     ),
                                     IconButton(
                                       onPressed: () {
@@ -176,7 +176,7 @@ class _FormularioWidgetState extends State<FormularioWidget> {
                                         Icons.edit,
                                         color: Theme.of(context)
                                             .colorScheme
-                                            .tertiary,
+                                            .primary,
                                       ),
                                     )
                                   ],

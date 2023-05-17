@@ -140,11 +140,11 @@ class _RegisterWidgetState extends State<RegisterWidget> {
               ),
             ),
             Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(30, 0, 30, 0),
+              padding: EdgeInsetsDirectional.fromSTEB(30, 0, 30, 30),
               child: TextFormField(
                 controller: password,
                 autofocus: true,
-                obscureText: false,
+                obscureText: true,
                 decoration: const InputDecoration(
                   hintText: 'Contraseña',
                   enabledBorder: OutlineInputBorder(

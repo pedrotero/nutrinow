@@ -88,20 +88,11 @@ class _FormListState extends State<FormListWidget> {
                               mainAxisSize: MainAxisSize.max,
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "- ${e["comentarios"]}",
-                                      style: const TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold),
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                    Text(
-                                        "Fecha: ${e["fecha"].toDate().toString().substring(0, 19)}"),
-                                  ],
-                                ),
+                                Text(
+                                    "Fecha: ${e["fecha"].toDate().toString().substring(0, 19)}",
+                                    style: const TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold)),
                                 Icon(
                                   Icons.chevron_right,
                                   color: Theme.of(context).colorScheme.primary,

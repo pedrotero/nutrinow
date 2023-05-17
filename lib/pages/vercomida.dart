@@ -20,6 +20,7 @@ class _VerComidaWidgetState extends State<VerComidaWidget> {
   TextEditingController fecha = TextEditingController();
   double animo = 0;
   Map<String, dynamic> meal = {};
+  TextEditingController comentarios = TextEditingController();
   @override
   void initState() {
     super.initState();
@@ -27,6 +28,7 @@ class _VerComidaWidgetState extends State<VerComidaWidget> {
     animo = meal["animo"] ?? 2.5;
     nombre.text = meal["nombre"] ?? "";
     fecha.text = meal["fecha"] ?? "";
+    comentarios.text = meal["comentarios"] ?? "";
   }
 
   @override
@@ -194,7 +196,7 @@ class _VerComidaWidgetState extends State<VerComidaWidget> {
                         direction: Axis.horizontal,
                         initialRating: 5,
                         unratedColor: const Color(0xFF9E9E9E),
-                        itemCount: 6,
+                        itemCount: 5,
                         itemSize: 40,
                         glowColor: Theme.of(context).colorScheme.primary,
                       ),
@@ -215,6 +217,7 @@ class _VerComidaWidgetState extends State<VerComidaWidget> {
                       child: TextFormField(
                         //controller: _model.textController2,
                         autofocus: true,
+                        controller: comentarios,
                         obscureText: false, enabled: false,
                         decoration: const InputDecoration(
                           hintText: '',

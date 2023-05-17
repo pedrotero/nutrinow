@@ -14,6 +14,7 @@ class FormController extends GetxController {
   Map<String, dynamic> mealview = {};
   List<Map<String, dynamic>> formscoll = [];
   Map<String, dynamic> formview = {};
+  List<Map<String, dynamic>> lastseven = [];
   bool editando = false;
   Future<void> create(
       animo, comentarios, comidas, estres, fecha, idUser) async {
@@ -40,6 +41,12 @@ class FormController extends GetxController {
         formscoll.add(docSnapshot.data() as Map<String, dynamic>);
         print('${docSnapshot.id} => ${docSnapshot.data()}');
       }
+      lastseven.clear();
+      lastseven.addAll(formscoll);
+      lastseven.sort((a, b) => b["fecha"].compareTo(a["fecha"]));
+      int maxLength = lastseven.length < 7 ? lastseven.length : 7;
+      lastseven = lastseven.sublist(0, maxLength);
+      print("$lastseven se supone que b,a");
     });
   }
 

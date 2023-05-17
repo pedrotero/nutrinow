@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:nutrinow/controllers/auth_controller.dart';
+import 'package:nutrinow/controllers/form_controller.dart';
 import 'package:nutrinow/pages/home.dart';
 import 'package:provider/provider.dart';
 
@@ -142,9 +143,10 @@ class _StartWidgetState extends State<StartWidget> {
             Padding(
               padding: const EdgeInsetsDirectional.fromSTEB(30, 0, 30, 0),
               child: TextFormField(
+                keyboardType: TextInputType.visiblePassword,
                 controller: password,
                 autofocus: true,
-                obscureText: false,
+                obscureText: true,
                 decoration: const InputDecoration(
                   hintText: 'Contraseña',
                   enabledBorder: OutlineInputBorder(
@@ -208,7 +210,7 @@ class _StartWidgetState extends State<StartWidget> {
               child: TextButton(
                   style: ButtonStyle(
                       backgroundColor: MaterialStatePropertyAll(
-                          Theme.of(context).colorScheme.secondary)),
+                          Theme.of(context).colorScheme.onPrimaryContainer)),
                   onPressed: () {
                     Navigator.pushNamed(context, "/register");
                   },

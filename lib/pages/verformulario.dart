@@ -97,7 +97,7 @@ class _VerFormWidgetState extends State<VerFormWidget> {
                       direction: Axis.horizontal,
                       initialRating: 3,
                       unratedColor: const Color(0xFF9E9E9E),
-                      itemCount: 6,
+                      itemCount: 5,
                       itemSize: 40,
                       glowColor: Theme.of(context).colorScheme.primary,
                     ),
