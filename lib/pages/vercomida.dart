@@ -194,7 +194,7 @@ class _VerComidaWidgetState extends State<VerComidaWidget> {
                           color: Theme.of(context).colorScheme.primary,
                         ),
                         direction: Axis.horizontal,
-                        initialRating: 5,
+                        initialRating: animo,
                         unratedColor: const Color(0xFF9E9E9E),
                         itemCount: 5,
                         itemSize: 40,

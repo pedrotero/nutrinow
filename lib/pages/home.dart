@@ -108,13 +108,30 @@ class _HomeWidgetState extends State<HomeWidget> {
                     fontWeight: FontWeight.w500,
                   )),
             ),
-            const Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Text(
-                "Tu ánimo y comidas por reporte en tus últimos 7 reportes",
-                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
-                textAlign: TextAlign.center,
-              ),
+            Padding(
+              padding: EdgeInsets.all(18.0),
+              child: RichText(
+                  textAlign: TextAlign.center,
+                  text: TextSpan(
+                      style: TextStyle(
+                          color: Theme.of(context).colorScheme.onSurface,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 18),
+                      children: [
+                        TextSpan(text: "Tu "),
+                        TextSpan(
+                            text: "ánimo",
+                            style: TextStyle(
+                                color: Theme.of(context).colorScheme.primary)),
+                        TextSpan(text: " y "),
+                        TextSpan(
+                            text: "comidas",
+                            style: TextStyle(
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .inversePrimary)),
+                        TextSpan(text: " en tus últimos 7 reportes")
+                      ])),
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
@@ -125,10 +142,11 @@ class _HomeWidgetState extends State<HomeWidget> {
                   child: LineChart(
                     LineChartData(
                       titlesData: FlTitlesData(
-                        bottomTitles: AxisTitles(
-                          sideTitles: bottomTitles,
-                        ),
-                      ),
+                          bottomTitles: AxisTitles(
+                            sideTitles: bottomTitles,
+                          ),
+                          topTitles: AxisTitles(
+                              sideTitles: SideTitles(showTitles: false))),
                       minY: 0,
                       maxY: 5,
                       lineBarsData: [
@@ -141,7 +159,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                           // ),
                         ),
                         LineChartBarData(
-                          color: Theme.of(context).colorScheme.error,
+                          color: Theme.of(context).colorScheme.inversePrimary,
                           spots: comidasSpots,
                           isCurved: true,
                         ),
