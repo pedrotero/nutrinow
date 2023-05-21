@@ -73,7 +73,10 @@ class _FormListState extends State<FormListWidget> {
                           onTap: () {
                             formController.formview = e;
                             print("voy a ver a $e");
-                            Navigator.pushNamed(context, "/verform");
+                            Navigator.pushNamed(context, "/verform")
+                                .then((value) {
+                              setState(() {});
+                            });
                           },
                           child: Container(
                             decoration: BoxDecoration(

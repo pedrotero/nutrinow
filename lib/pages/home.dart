@@ -21,6 +21,7 @@ class _HomeWidgetState extends State<HomeWidget> {
   String? userDisp;
   List<FlSpot> animoSpots = [];
   List<FlSpot> comidasSpots = [];
+  List<FlSpot> horasSpots = [];
   SideTitles? bottomTitles;
 
   @override
@@ -48,6 +49,10 @@ class _HomeWidgetState extends State<HomeWidget> {
     i = 0;
     comidasSpots = formController.lastseven.map((e) {
       return FlSpot(i++, e["comidas"].length + 0.0);
+    }).toList();
+    i = 0;
+    horasSpots = formController.lastseven.map((e) {
+      return FlSpot(i++, (e["horas"] ?? 0) + 0.0);
     }).toList();
   }
 
@@ -123,13 +128,18 @@ class _HomeWidgetState extends State<HomeWidget> {
                             text: "ánimo",
                             style: TextStyle(
                                 color: Theme.of(context).colorScheme.primary)),
-                        TextSpan(text: " y "),
+                        TextSpan(text: ", "),
                         TextSpan(
                             text: "comidas",
                             style: TextStyle(
                                 color: Theme.of(context)
                                     .colorScheme
                                     .inversePrimary)),
+                        TextSpan(text: ", "),
+                        TextSpan(
+                            text: "horas de sueño",
+                            style: TextStyle(
+                                color: Theme.of(context).colorScheme.error)),
                         TextSpan(text: " en tus últimos 7 reportes")
                       ])),
             ),
@@ -141,6 +151,10 @@ class _HomeWidgetState extends State<HomeWidget> {
                   aspectRatio: 1.6,
                   child: LineChart(
                     LineChartData(
+                      lineTouchData: LineTouchData(
+                          touchTooltipData: LineTouchTooltipData(
+                              tooltipBgColor:
+                                  Theme.of(context).colorScheme.surface)),
                       titlesData: FlTitlesData(
                           bottomTitles: AxisTitles(
                             sideTitles: bottomTitles,
@@ -153,15 +167,17 @@ class _HomeWidgetState extends State<HomeWidget> {
                         LineChartBarData(
                           color: Theme.of(context).colorScheme.primary,
                           spots: animoSpots,
-                          isCurved: true,
-                          // dotData: FlDotData(
-                          //   show: false,
-                          // ),
+                          isCurved: false,
                         ),
                         LineChartBarData(
                           color: Theme.of(context).colorScheme.inversePrimary,
                           spots: comidasSpots,
-                          isCurved: true,
+                          isCurved: false,
+                        ),
+                        LineChartBarData(
+                          color: Theme.of(context).colorScheme.primary,
+                          spots: animoSpots,
+                          isCurved: false,
                         ),
                       ],
                     ),
@@ -176,7 +192,9 @@ class _HomeWidgetState extends State<HomeWidget> {
                       backgroundColor: MaterialStatePropertyAll(
                           Theme.of(context).colorScheme.primary)),
                   onPressed: () {
-                    Navigator.pushNamed(context, "/formulario");
+                    Navigator.pushNamed(context, "/formulario").then((value) {
+                      setState(() {});
+                    });
                   },
                   child: Text("Crear formulario",
                       style: TextStyle(
@@ -194,7 +212,9 @@ class _HomeWidgetState extends State<HomeWidget> {
                         formController.get();
                       });
 
-                      Navigator.pushNamed(context, "/formlist");
+                      Navigator.pushNamed(context, "/formlist").then((value) {
+                        setState(() {});
+                      });
                     },
                     style: ButtonStyle(
                         backgroundColor: MaterialStatePropertyAll(

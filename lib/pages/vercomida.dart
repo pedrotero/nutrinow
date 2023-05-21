@@ -25,7 +25,7 @@ class _VerComidaWidgetState extends State<VerComidaWidget> {
   void initState() {
     super.initState();
     meal = formcon.mealview;
-    animo = meal["animo"] ?? 2.5;
+    animo = meal["calif"] ?? 2.5;
     nombre.text = meal["nombre"] ?? "";
     fecha.text = meal["fecha"] ?? "";
     comentarios.text = meal["comentarios"] ?? "";
@@ -194,7 +194,7 @@ class _VerComidaWidgetState extends State<VerComidaWidget> {
                           color: Theme.of(context).colorScheme.primary,
                         ),
                         direction: Axis.horizontal,
-                        initialRating: animo,
+                        initialRating: formcon.mealview["calif"],
                         unratedColor: const Color(0xFF9E9E9E),
                         itemCount: 5,
                         itemSize: 40,

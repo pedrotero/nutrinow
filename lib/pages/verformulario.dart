@@ -23,6 +23,7 @@ class _VerFormWidgetState extends State<VerFormWidget> {
   double animo = 3;
   double estres = 0;
   TextEditingController comentarios = TextEditingController();
+  TextEditingController horas = TextEditingController();
   late DateTime fecha;
   @override
   void initState() {
@@ -36,6 +37,7 @@ class _VerFormWidgetState extends State<VerFormWidget> {
       estres = form["estres"];
       comentarios.text = form["comentarios"];
       fecha = form["fecha"].toDate();
+      horas.text = form["horas"];
     });
   }
 
@@ -95,7 +97,7 @@ class _VerFormWidgetState extends State<VerFormWidget> {
                         color: Theme.of(context).colorScheme.primary,
                       ),
                       direction: Axis.horizontal,
-                      initialRating: 3,
+                      initialRating: formController.formview["animo"],
                       unratedColor: const Color(0xFF9E9E9E),
                       itemCount: 5,
                       itemSize: 40,
@@ -124,6 +126,30 @@ class _VerFormWidgetState extends State<VerFormWidget> {
                     ),
                   ),
                   Padding(
+                    padding: EdgeInsetsDirectional.fromSTEB(0, 20, 10, 0),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text("¿Cuántas horas dormiste?"),
+                        Padding(
+                          padding: EdgeInsetsDirectional.fromSTEB(15, 0, 0, 0),
+                          child: SizedBox(
+                            width: 40,
+                            child: TextField(
+                              enabled: false,
+                              textAlign: TextAlign.center,
+                              controller: horas,
+                              keyboardType: TextInputType.number,
+                              maxLength: 2,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Padding(
                     padding: const EdgeInsets.all(10.0),
                     child: Text("Tus Comidas"),
                   ),
@@ -136,7 +162,10 @@ class _VerFormWidgetState extends State<VerFormWidget> {
                             return InkWell(
                               onTap: () {
                                 formController.mealview = e;
-                                Navigator.pushNamed(context, "/vercomida");
+                                Navigator.pushNamed(context, "/vercomida")
+                                    .then((value) {
+                                  setState(() {});
+                                });
                               },
                               child: Row(
                                 children: [

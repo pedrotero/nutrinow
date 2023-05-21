@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
@@ -21,6 +23,7 @@ class _FormularioWidgetState extends State<FormularioWidget> {
   List<Map<String, dynamic>>? meals;
   double animo = 3;
   double estres = 0;
+  TextEditingController horas = TextEditingController();
   TextEditingController comentarios = TextEditingController();
   @override
   void initState() {
@@ -112,8 +115,32 @@ class _FormularioWidgetState extends State<FormularioWidget> {
                         ),
                       ),
                       Padding(
+                        padding: EdgeInsetsDirectional.fromSTEB(0, 20, 10, 0),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text("¿Cuántas horas dormiste?"),
+                            Padding(
+                              padding:
+                                  EdgeInsetsDirectional.fromSTEB(15, 0, 0, 0),
+                              child: SizedBox(
+                                width: 40,
+                                child: TextField(
+                                  textAlign: TextAlign.center,
+                                  controller: horas,
+                                  keyboardType: TextInputType.number,
+                                  maxLength: 2,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(
                         padding:
-                            const EdgeInsetsDirectional.fromSTEB(0, 40, 0, 0),
+                            const EdgeInsetsDirectional.fromSTEB(0, 30, 0, 0),
                         child: Row(
                           mainAxisSize: MainAxisSize.max,
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -130,7 +157,10 @@ class _FormularioWidgetState extends State<FormularioWidget> {
                                 hoverColor: Colors.transparent,
                                 highlightColor: Colors.transparent,
                                 onTap: () async {
-                                  Navigator.pushNamed(context, "/editcomida");
+                                  Navigator.pushNamed(context, "/editcomida")
+                                      .then((value) {
+                                    setState(() {});
+                                  });
                                 },
                                 child: const Icon(
                                   Icons.add_circle_outline,
@@ -143,22 +173,17 @@ class _FormularioWidgetState extends State<FormularioWidget> {
                       ),
                       Padding(
                         padding:
-                            const EdgeInsetsDirectional.fromSTEB(40, 20, 0, 0),
+                            const EdgeInsetsDirectional.fromSTEB(60, 20, 60, 0),
                         child: SingleChildScrollView(
                           child: Column(
                               mainAxisSize: MainAxisSize.max,
                               children: meals!.map((e) {
                                 return Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text(
-                                      e["nombre"],
-                                      style: TextStyle(
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .primary),
-                                    ),
-                                    IconButton(
-                                      onPressed: () {
+                                    InkWell(
+                                      onTap: () {
                                         formController.editando = true;
                                         Map<String, dynamic> i = {
                                           "i": formController.currentMeals
@@ -169,13 +194,40 @@ class _FormularioWidgetState extends State<FormularioWidget> {
                                         setState(() {});
 
                                         Navigator.pushNamed(
-                                            context, "/editcomida");
+                                                context, "/editcomida")
+                                            .then((value) {
+                                          setState(() {});
+                                        });
+                                      },
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Text(
+                                            e["nombre"],
+                                            style: TextStyle(
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .primary),
+                                          ),
+                                          Icon(
+                                            Icons.edit,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .primary,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    IconButton(
+                                      onPressed: () {
+                                        setState(() {
+                                          formController.currentMeals.remove(e);
+                                        });
                                       },
                                       icon: Icon(
-                                        Icons.edit,
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .primary,
+                                        Icons.delete,
+                                        color:
+                                            Theme.of(context).colorScheme.error,
                                       ),
                                     )
                                   ],
@@ -257,9 +309,7 @@ class _FormularioWidgetState extends State<FormularioWidget> {
                   child: TextButton(
                       style: ButtonStyle(
                           backgroundColor: MaterialStatePropertyAll(
-                              Theme.of(context)
-                                  .colorScheme
-                                  .onPrimaryContainer)),
+                              Theme.of(context).colorScheme.primary)),
                       onPressed: () {
                         formController.create(
                             animo,
@@ -267,7 +317,10 @@ class _FormularioWidgetState extends State<FormularioWidget> {
                             formController.currentMeals,
                             estres,
                             DateTime.now(),
-                            authController.getUid());
+                            authController.getUid(),
+                            (horas.text.isNotEmpty
+                                ? int.tryParse(horas.text)
+                                : 0));
                         formController.currentMeals = [];
                         Navigator.pop(context);
                       },

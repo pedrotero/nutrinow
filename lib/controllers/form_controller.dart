@@ -17,14 +17,15 @@ class FormController extends GetxController {
   List<Map<String, dynamic>> lastseven = [];
   bool editando = false;
   Future<void> create(
-      animo, comentarios, comidas, estres, fecha, idUser) async {
+      animo, comentarios, comidas, estres, fecha, idUser, horas) async {
     await formsref.add({
       "animo": animo,
       "comentarios": comentarios,
       "comidas": comidas,
       "estres": estres,
       "fecha": fecha,
-      "idUser": idUser
+      "idUser": idUser,
+      "horas": horas
     });
     print("form added");
   }
@@ -45,6 +46,7 @@ class FormController extends GetxController {
       lastseven.sort((a, b) => b["fecha"].compareTo(a["fecha"]));
       int maxLength = lastseven.length < 7 ? lastseven.length : 7;
       lastseven = lastseven.sublist(0, maxLength);
+      lastseven = lastseven.reversed.toList();
     });
   }
 

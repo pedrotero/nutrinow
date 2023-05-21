@@ -40,7 +40,7 @@ class MyApp extends StatelessWidget {
     Get.put(AuthenticationController());
     Get.put(FormController());
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'NutriNow',
       theme: ThemeData(
         colorScheme:
             ColorScheme.fromSeed(seedColor: Color.fromARGB(255, 51, 124, 29)),
