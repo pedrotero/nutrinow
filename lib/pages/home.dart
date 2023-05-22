@@ -135,7 +135,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                                 color: Theme.of(context)
                                     .colorScheme
                                     .inversePrimary)),
-                        TextSpan(text: ", "),
+                        TextSpan(text: " y "),
                         TextSpan(
                             text: "horas de sueño",
                             style: TextStyle(
