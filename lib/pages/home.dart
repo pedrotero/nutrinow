@@ -162,7 +162,6 @@ class _HomeWidgetState extends State<HomeWidget> {
                           topTitles: AxisTitles(
                               sideTitles: SideTitles(showTitles: false))),
                       minY: 0,
-                      maxY: 5,
                       lineBarsData: [
                         LineChartBarData(
                           color: Theme.of(context).colorScheme.primary,
@@ -175,8 +174,8 @@ class _HomeWidgetState extends State<HomeWidget> {
                           isCurved: false,
                         ),
                         LineChartBarData(
-                          color: Theme.of(context).colorScheme.primary,
-                          spots: animoSpots,
+                          color: Theme.of(context).colorScheme.error,
+                          spots: horasSpots,
                           isCurved: false,
                         ),
                       ],
@@ -193,7 +192,9 @@ class _HomeWidgetState extends State<HomeWidget> {
                           Theme.of(context).colorScheme.primary)),
                   onPressed: () {
                     Navigator.pushNamed(context, "/formulario").then((value) {
-                      setState(() {});
+                      setState(() {
+                        getForms();
+                      });
                     });
                   },
                   child: Text("Crear formulario",

@@ -37,7 +37,7 @@ class _VerFormWidgetState extends State<VerFormWidget> {
       estres = form["estres"];
       comentarios.text = form["comentarios"];
       fecha = form["fecha"].toDate();
-      horas.text = form["horas"];
+      horas.text = form["horas"].toString();
     });
   }
 
